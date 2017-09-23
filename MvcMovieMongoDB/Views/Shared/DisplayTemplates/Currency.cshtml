@@ -1,0 +1,5 @@
+﻿@model decimal?
+@if (Model != null && Model != decimal.MinValue)
+{
+    @string.Format("{0:N}", Model)
+}

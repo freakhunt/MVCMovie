@@ -1,0 +1,68 @@
+@model MvcMovieMongoDB.Models.Movie
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div>
+    <h2>Details</h2>
+
+    <br />
+
+    <div>
+        <a href="@Url.Action("", "MovieSite")" class="btn btn-info" )">
+            <span class="glyphicon glyphicon-menu-left"></span>
+            Back to Collection
+        </a>
+    </div>
+
+    <br />
+
+    <div style="background-color:#9cf6fc; max-width:500px" class="blueBorder">
+        <dl class="dl-horizontal" style="max-width:500px">
+            <dt>
+                @Html.DisplayNameFor(model => model.Id)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Id)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Title)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Title)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.ReleaseDate)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.ReleaseDate)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Genre)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Genre)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Price)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Price)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Rating)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Rating)
+            </dd>
+        </dl>
+
+        <div>
+            <a href="@Url.Action("Edit", "MovieSite", new { id = @Model.Id })" class="btn btn-default btn-success">
+                Edit
+                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+            </a>
+        </div>
+    </div>
+</div>

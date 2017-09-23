@@ -1,0 +1,146 @@
+@using System.Collections.Generic
+@using System.Linq
+@using Microsoft.CodeAnalysis.Differencing
+@model System.Collections.Generic.IEnumerable<MvcMovieMongoDB.Models.Movie>
+
+@{
+    ViewData["Title"] = "Movie List";
+}
+
+<h2>Your Collection</h2>
+
+<div style="background-color: #9cf6fc;" class="blueBorder blueBackground" >
+    <form asp-controller="MovieSite" asp-action="Index" method="get" style="position: relative; display:inline">
+        <div class="container-fluid">
+            <div class="row" style="margin-bottom: 20px; margin-top: 20px">
+                <div class="form-group">
+                    <div class="col-xs-12 col-sm-6 col-md-2">
+                        <a href="@Url.Action("Create", "MovieSite")" class="btn btn-success">
+                            Add New 
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true" ></span>
+                        </a>
+                    </div>
+                    <div class="col-xs-10 col-sm-6 col-md-5 col-md-offset-5">
+                        <div class="input-group ">
+                            <input id="stringSearched" autofocus class="form-control" name="SearchString">
+                            <span id="searchSpan" class="btn btn-info input-group-addon glyphicon glyphicon-search" style="top:0px;"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <table class="table table-responsive table-hover table-striped" id="movies">
+        <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReleaseDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Genre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rating)
+            </th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReleaseDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Genres.FirstOrDefault(t => t.Value == item.Genre).Text)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ratings.FirstOrDefault(t => t.Value == item.Rating).Text)
+                </td>
+                <td>
+                    <a href="@Url.Action("Edit", "MovieSite", new { id = @item.Id })" class="btn btn-success btn-xs">
+                        Edit
+                        <span class="glyphicon glyphicon-edit" ></span>
+                    </a>
+                    <a href="@Url.Action("Details", "MovieSite", new { id = @item.Id })" class="btn btn-info btn-xs">
+                        Details 
+                        <span class="glyphicon glyphicon-pencil" ></span>
+                    </a>
+                    <a href="@Url.Action("Delete", "MovieSite", new { id = @item.Id })" class="btn btn-danger btn-xs">
+                        Delete 
+                        <span class="glyphicon glyphicon-trash" ></span>
+                    </a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+@section scripts
+{
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.5/css/jquery.dataTables.min.css">
+
+    <!-- jQuery -->
+    <script type="text/javascript" language="javascript" charset="utf8" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+
+    <!-- DataTables -->
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.5/js/jquery.dataTables.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+           var table = $('#movies').DataTable({
+                searching: false,
+                aaSorting: [[1, "asc"]],
+                "columnDefs": [
+                    {
+                        "visible": false, "targets": 0
+                    },
+                    {
+                        "orderable": false, "targets": 6
+                    },
+                    {
+                        "pagingType": "full"
+                    }
+                ]
+            });
+
+            $('#movies tbody')
+                .on('mouseenter', 'td', function () {
+                    $(table.cells().nodes()).removeClass('highlight');
+                });
+        });
+
+        
+    </script>
+    
+    <script type="text/javascript">
+        $("#searchSpan").click(function () {
+
+            var searchedString = document.getElementById("stringSearched").value;
+            var url = "/?SearchString=" + searchedString;
+            window.location.href = url;
+        });
+    </script>
+}
